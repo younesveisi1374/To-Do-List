@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>To-Do List</h1>
+
+      <!-- Form to add new task -->
+      <form action="{{ url_for('add_task') }}" method="post">
+        <div class="form-group">
+          <label for="name">Task Name:</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="priority">Priority:</label>
+          <select id="priority" name="priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+        <button type="submit">Add Task</button>
+      </form>
+
+      <!-- Task list -->
+      <h2>Tasks</h2>
+      {% if tasks %}
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Priority</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in tasks %}
+              <tr>
+                <td>{{ task.name }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.priority }}</td>
+                <td>
+                  <a href="{{ url_for('remove_task', name=task.name) }}" class="delete-btn">Delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No tasks available.</p>
+      {% endif %}
+    </div>
+  </body>
+</html>
